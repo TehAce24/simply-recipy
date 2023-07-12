@@ -8,7 +8,7 @@ from io import BytesIO
 from dotenv import load_dotenv
 from ratelimit import limits
 
-# Initiates dotenv and grabs api key
+# Initiates dotenv and retrieve api key
 load_dotenv()
 api_key = os.getenv("api_key")
 
@@ -28,8 +28,8 @@ name_save: list = []
 items_save: list = []
 direction_save: list = []
 
-# Period of time for max amount
-# of calls in seconds
+# Max amount of
+# calls measured in seconds
 api_call_time = 30
 
 
@@ -445,4 +445,3 @@ if __name__ == '__main__':
 
     """Loop keeps Tkinter open"""
     root.mainloop()
-8

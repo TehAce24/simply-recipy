@@ -30,12 +30,12 @@ There are hundreds if not thousands of combinations so think of your favorite fo
 
 Important ones are `customtkinter` for GUI and `PIL` for loading images.
 
-`dotenv` for api key and `ratelimit` for throttling calls.
+`dotenv` for api key and `ratelimit` for throttling calls. Requests are limited to 5 calls every 30 seconds,
+but it can be removed if desired.
 * **Tkinter is a standard GUI library built into Python**
 * **Simply Recipe utilizes customtkinter which is a relatively new and modified version of Tkinter but with a more modern look.**
 
-![Main Screen](assets\images\example1.png)
-![Recipe Screen](assets\images\example3.png)
+![Main Screen](assets/images/example1.png)![Recipe Screen](assets/images/example3.png)
 
 
 ###### Disclaimer
