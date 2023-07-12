@@ -34,8 +34,8 @@ Important ones are `customtkinter` for GUI and `PIL` for loading images.
 * **Tkinter is a standard GUI library built into Python**
 * **Simply Recipe utilizes customtkinter which is a relatively new and modified version of Tkinter but with a more modern look.**
 
-![Main Screen](assets\images\example1.png)
-![Recipe Screen](assets\images\example3.png)
+![Main Screen](assets/images/example1.png)
+![Recipe Screen](assets/images/example3.png)
 
 
 ###### Disclaimer
