@@ -22,6 +22,8 @@ item_str = ""
 # Appends list from Ctk.Entry
 entries: list = []
 entry_num: list = []
+store_image: list = []
+image_label = []
 
 # For saving recipe
 name_save: list = []
@@ -84,6 +86,8 @@ def slider_entries() -> None:
 
 def main():
     # Main function for extracting API
+    if image_label:
+        image_label.grid_forget()
     while True:
         try:
             entry_items: list = get_items(entries)
@@ -177,6 +181,7 @@ def print_items(data: dict) -> None:
     # Allows textbox to be edited
     # then deletes any previous text
     textbox_recipe.configure(state="normal")
+    textbox_directions.configure(state="normal")
     textbox_directions.delete('0.0', 'end')
     textbox_recipe.delete('0.0', 'end')
 
@@ -205,6 +210,7 @@ def print_items(data: dict) -> None:
     # Disables textbox after
     # inserting recipe to textbox
     textbox_recipe.configure(state="disabled")
+    textbox_directions.configure(state="disabled")
 
 
 def get_title_id(data: dict) -> int:
@@ -264,13 +270,15 @@ def save_dialog():
     text2 = textbox_directions.get('0.0', 'end')
 
     if any(char.isalpha() for char in text1 and text2):
+        if textbox_error:
+            textbox_error.grid_forget()
         dialog = customtkinter.CTkInputDialog(text="Save as..:")
         file_name: str = dialog.get_input()
         print(f"File: {file_name}.txt")
         if file_name is not None:
             return save_recipe(file_name)
     elif text1 or text2 == "\n" or "":
-        textbox_error.grid()
+        textbox_error.grid(row=3)
         print("box is empty")
 
 
@@ -293,7 +301,7 @@ def save_recipe(file_name: str):
 
 
 def reset():
-    # Removes widgets
+    # Clears all entries and widgets
     if entry_frame:
         entry_frame.grid_forget()
     if label_frame:
@@ -303,17 +311,24 @@ def reset():
         entry_boxes.destroy()
     for entry_numbers in entry_num:
         entry_numbers.destroy()
+
+    textbox_recipe.configure(state="normal")
+    textbox_directions.configure(state="normal")
+    textbox_directions.delete('0.0', 'end')
+    textbox_recipe.delete('0.0', 'end')
+    textbox_recipe.configure(state="disabled")
+    textbox_directions.configure(state="disabled")
+
     entry_num.clear()
     entries.clear()
 
     button_submit1.grid(row=2, column=1, padx=20, pady=5, columnspan=2)
     slider_frame.grid(row=1, column=1, padx=5, pady=5, columnspan=2)
     title1.grid(row=0, column=3, padx=5, pady=5)
+    fridge_label.grid(row=4, column=1)
 
     if image_label:
         image_label.grid_forget()
-    if image_frame:
-        image_frame.grid_forget()
 
 
 def theme_mode(choice):
@@ -334,7 +349,7 @@ if __name__ == '__main__':
     root = customtkinter.CTk()
     root.title("Simply Recipe")
     root.rowconfigure(1, weight=1)
-    root.columnconfigure(1, weight=1)
+    root.columnconfigure(1, weight=5)
 
     """Theme"""
     customtkinter.set_appearance_mode('light')
@@ -388,7 +403,7 @@ if __name__ == '__main__':
 
     """Slider"""
     slider_1 = customtkinter.CTkSlider(slider_frame, from_=1, to=5, command=slider_value, corner_radius=20,
-                                       progress_color='darkgreen')
+                                       progress_color='darkgreen', number_of_steps=10)
     slider_text = customtkinter.CTkLabel(slider_frame, text='3', font=('Helvetica ', 16))
     slider_text_arrow = customtkinter.CTkLabel(slider_frame, text='▼')
 
@@ -407,7 +422,7 @@ if __name__ == '__main__':
     recipe_label = customtkinter.CTkLabel(label_frame, text=recipe_str, font=('Helvetica ', 16))
     error_label = customtkinter.CTkLabel(entry_frame, text="Invalid input(s)", text_color='red')
     textbox_error = customtkinter.CTkLabel(menu_frame, text="Search recipe first...", text_color='red')
-    api_error = customtkinter.CTkLabel(entry_frame, text="Too many requests...", text_color='red')
+    api_error = customtkinter.CTkLabel(entry_frame, text="Too many requests, please wait...", text_color='red')
     save_error = customtkinter.CTkLabel(menu_frame, text="Invalid file name...", text_color='red')
     logo_label = customtkinter.CTkLabel(menu_frame, image=logo_image, text="")
     theme_label = customtkinter.CTkLabel(menu_frame, text="Theme")
@@ -425,6 +440,7 @@ if __name__ == '__main__':
     slider_frame.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
     menu_frame.grid(row=0, column=0, sticky='ns', rowspan=8)
     menu_frame.grid_rowconfigure(2, weight=1)
+    menu_frame.grid_columnconfigure(2, weight=1)
     textbox_recipe_frame.grid(padx=5, pady=5)
     textbox_step_frame.grid(padx=5, pady=5)
     button_submit1.grid(row=2, column=1, padx=20, pady=5, columnspan=2)
